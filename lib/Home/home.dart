@@ -1,10 +1,8 @@
-
-
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,29 +12,27 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  List<dynamic> post = [];
 
-  List<dynamic> post=[];
+  final url = Uri.parse(
+    "https://www.youtube.com/watch?v=t9cm7XGns6I&list=PL-hhMBvVJVm5GMfisHyOWyatw93HC77IV&index=4",
+  );
 
-  final url=Uri.parse("https://www.youtube.com/watch?v=t9cm7XGns6I&list=PL-hhMBvVJVm5GMfisHyOWyatw93HC77IV&index=4");
-  Future fachData() async  {
-   final respons= await http.get(url);
-  final jasonData= jsonDecode(respons.body);
+  Future fachData() async {
+    final respons = await http.get(url);
+    final jasonData = jsonDecode(respons.body);
 
-   post= jasonData;
+    post = jasonData;
 
-   if ( respons.statusCode == 200)
-     {
-       print("sucsees");
+    if (respons.statusCode == 200) {
+      print("sucsees");
 
-       print(jasonData);
-
-
-
-     }else{
-     print("fiels");
-   }
-
+      print(jasonData);
+    } else {
+      print("fiels");
+    }
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -44,19 +40,14 @@ class _HomeState extends State<Home> {
     fachData();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      appBar: AppBar(
-        centerTitle: true,
-
-        title: Text("Api"),
-
-      ),
-      body: Scaffold(
-
+      appBar: AppBar(centerTitle: true, title: Text("Api intigation ")),
+      body: ListView.builder(
+        itemBuilder: (_, index) {
+          return Card(child: ListTile(title: Text(post[index]["title"])));
+        },
       ),
     );
   }
